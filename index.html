@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Práctica de verbos</title>
+<style>
+:root{--ink:#10265a;--blue:#2563eb;--blue2:#1d4ed8;--sky:#eef4ff;--line:#d6e2fb;--ok:#138a55;--bad:#c63c3c}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;color:var(--ink);font-family:"Segoe UI",system-ui,sans-serif;
+  background:radial-gradient(900px 500px at 12% 0%,#2f6bff66,transparent 60%),radial-gradient(800px 500px at 100% 100%,#6aa2ff55,transparent 55%),linear-gradient(160deg,#061a40,#0c2f73 60%,#123f93);background-attachment:fixed}
+main{width:min(620px,100%);background:#fff;border-radius:30px;padding:0 32px 32px;text-align:center;overflow:hidden;
+  box-shadow:0 40px 80px -30px rgba(0,10,40,.85),0 0 0 1px rgba(255,255,255,.45);animation:rise .6s cubic-bezier(.2,.8,.2,1)}
+main::before{content:"";display:block;height:8px;margin:0 -32px 28px;background:linear-gradient(90deg,#1d4ed8,#7cb2ff,#1d4ed8)}
+h1{font-family:Georgia,"Palatino Linotype",serif;font-weight:700;font-size:2.5rem;margin:0 0 6px;color:#0b2a5b}
+h1::after{content:"";display:block;width:64px;height:4px;background:linear-gradient(90deg,#1d4ed8,#7cb2ff);border-radius:4px;margin:14px auto 0}
+.sub{color:#4b628f;margin:14px 0 22px}
+button{font:inherit;font-weight:600;border:0;border-radius:999px;padding:14px 32px;margin:6px;color:#fff;cursor:pointer;
+  background:linear-gradient(180deg,#3b82f6,#1d4ed8);box-shadow:0 10px 20px -8px rgba(29,78,216,.7),inset 0 1px 0 #ffffff55;transition:transform .15s,box-shadow .15s}
+button:hover{transform:translateY(-2px);box-shadow:0 14px 24px -8px rgba(29,78,216,.8),inset 0 1px 0 #ffffff55}
+button:active{transform:none}
+button.alt{background:#fff;color:var(--blue2);box-shadow:inset 0 0 0 2px #bcd0fa}
+button.alt:hover{background:var(--sky)}
+button:focus-visible,input:focus-visible{outline:3px solid #7ea2f5;outline-offset:3px}
+.mode{display:block;width:100%;margin:14px 0;text-align:left;border-radius:20px;background:linear-gradient(135deg,#f6f9ff,#e6efff);color:var(--ink);padding:20px 24px;
+  box-shadow:inset 5px 0 0 var(--blue),inset 0 0 0 1px var(--line)}
+.mode:hover{background:#fff;box-shadow:inset 5px 0 0 var(--blue),inset 0 0 0 1px #a9c2f5,0 16px 30px -16px rgba(29,78,216,.55)}
+.mode b{display:block;font-family:Georgia,serif;font-size:1.3rem;margin-bottom:4px;color:#0b2a5b}
+.mode span{color:#4b628f;font-weight:400;font-size:.93rem}
+.top{display:flex;justify-content:space-between;align-items:center;font-weight:600;color:#4b628f;margin-bottom:10px}
+.top span:first-child{background:var(--sky);color:var(--blue2);padding:4px 14px;border-radius:999px}
+.bar{height:8px;background:var(--sky);border-radius:8px;overflow:hidden;margin-bottom:20px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#60a5fa,#1d4ed8);border-radius:8px;transition:width .4s}
+.frame{padding:5px;border-radius:26px;background:linear-gradient(135deg,#7cb2ff,#1d4ed8);box-shadow:0 24px 40px -20px rgba(11,42,91,.75);animation:pop .4s cubic-bezier(.2,.8,.2,1)}
+.frame img,.noimg{display:block;width:100%;height:300px;object-fit:contain;border-radius:21px;background:var(--sky)}
+.noimg{display:grid;place-items:center;font-family:Georgia,serif;font-size:1.8rem}
+.ask{margin:24px 0 12px;font-size:1.1rem}
+.ask b{background:linear-gradient(135deg,#0b2a5b,#1d4ed8);color:#fff;padding:4px 16px;border-radius:999px;font-weight:600;margin-left:8px}
+input{font:inherit;font-size:1.5rem;text-align:center;width:100%;padding:15px;border:2px solid var(--line);border-radius:16px;color:var(--ink);background:#fff;box-shadow:inset 0 2px 6px rgba(11,42,91,.06);transition:box-shadow .15s,border-color .15s}
+input:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 4px #2563eb30}
+input:disabled{background:var(--sky)}
+.fb{min-height:3.6em;margin:14px 0 6px;font-weight:600}
+.fb span{display:inline-block;padding:8px 18px;border-radius:999px;margin-bottom:4px}
+.ok{color:var(--ok);background:#e5f7ee}.bad{color:var(--bad);background:#fdeaea}
+.big{font-family:Georgia,serif;font-size:4rem;font-weight:700;line-height:1.1;margin:10px 0 2px;background:linear-gradient(135deg,#1d4ed8,#0b2a5b);-webkit-background-clip:text;background-clip:text;color:transparent}
+table{width:100%;border-collapse:separate;border-spacing:0;margin:14px 0;font-size:.93rem;border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line)}
+th{background:linear-gradient(90deg,#0b2a5b,#1d4ed8);color:#fff;font-weight:600}
+th,td{padding:10px 8px}td{border-top:1px solid var(--line)}tr:nth-child(even) td{background:#f6f9ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px;margin:18px 0 12px}
+button.pick{margin:0;padding:6px 6px 10px;border-radius:16px;background:#fff;color:var(--ink);font-weight:600;font-size:.9rem;position:relative;box-shadow:inset 0 0 0 2px var(--line)}
+button.pick:hover{box-shadow:inset 0 0 0 2px #a9c2f5,0 10px 18px -12px rgba(29,78,216,.5)}
+button.pick img{display:block;width:100%;height:76px;object-fit:cover;border-radius:11px;margin-bottom:6px;background:var(--sky)}
+button.pick.on{background:#e6efff;box-shadow:inset 0 0 0 3px var(--blue),0 10px 18px -12px rgba(29,78,216,.6)}
+button.pick.on::after{content:"\2713";position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-size:.8rem;line-height:22px}
+button:disabled{cursor:not-allowed;transform:none}
+@keyframes rise{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+@media(max-width:480px){main{padding:0 18px 24px}main::before{margin:0 -18px 22px}.frame img,.noimg{height:240px}h1{font-size:2rem}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+// img = nombre del archivo en la carpeta imagenes/ (sin .png)
+const VERBS=[
+{img:"ser_estar",es:"ser, estar",base:"be",past:["was","were"]},
+{img:"Empezar",es:"empezar",base:"begin",past:["began"]},
+{img:"Romper",es:"romper",base:"break",past:["broke"]},
+{img:"Traer",es:"traer",base:"bring",past:["brought"]},
+{img:"Construir",es:"construir",base:"build",past:["built"]},
+{img:"Comprar",es:"comprar",base:"buy",past:["bought"]},
+{img:"Atrapar",es:"atrapar",base:"catch",past:["caught"]},
+{img:"Elegir",es:"elegir",base:"choose",past:["chose"]},
+{img:"Venir",es:"venir",base:"come",past:["came"]},
+{img:"Costar",es:"costar",base:"cost",past:["cost"]},
+{img:"Cortar",es:"cortar",base:"cut",past:["cut"]},
+{img:"Hacer",es:"hacer",base:"do",past:["did"]},
+{img:"Beber",es:"beber",base:"drink",past:["drank"]},
+{img:"Conducir",es:"conducir",base:"drive",past:["drove"]},
+{img:"Comer",es:"comer",base:"eat",past:["ate"]},
+{img:"Caer",es:"caer",base:"fall",past:["fell"]},
+{img:"Sentir",es:"sentir",base:"feel",past:["felt"]},
+{img:"Encontrar",es:"encontrar",base:"find",past:["found"]},
+{img:"Encajar",es:"encajar",base:"fit",past:["fit"]},
+{img:"Volar",es:"volar",base:"fly",past:["flew"]}
+];
+const $=s=>document.querySelector(s), app=$("#app");
+let Q=[],i=0,score=0,fails=[],phase="ask",mode="";
+
+const shuffle=a=>{a=[...a];for(let j=a.length-1;j>0;j--){const k=Math.floor(Math.random()*(j+1));[a[j],a[k]]=[a[k],a[j]]}return a};
+const answers=q=>q.form==="base"?[q.v.base]:q.v.past;
+const ALL=VERBS.flatMap(v=>[{v,form:"base"},{v,form:"past"}]);
+
+function home(){
+  app.innerHTML=`<h1>Práctica de verbos</h1>
+  <p class="sub">Mira la imagen y escribe el verbo en inglés.</p>
+  <button class="mode" id="r"><b>Modo random</b><span>Los 20 verbos en forma base y pasado (40 preguntas), todo mezclado.</span></button>
+  <button class="mode" id="l"><b>Modo lista</b><span>En orden: primero la forma base y luego el pasado de cada verbo.</span></button>
+  <button class="mode" id="e"><b>Elige tus verbos</b><span>Tú escoges cuáles practicar; se preguntan en orden, base y luego pasado.</span></button>`;
+  $("#r").onclick=()=>start("random");
+  $("#l").onclick=()=>start("lista");
+  $("#e").onclick=pick;
+}
+
+function start(m,items){
+  mode=m;
+  if(items) Q=items;
+  else if(m==="random"){
+    let s,n=0;
+    do{s=shuffle(ALL);n++}while(n<200&&s.some((x,k)=>k&&x.v===s[k-1].v)); // evita el mismo verbo seguido
+    Q=s;
+  }else Q=ALL;
+  i=0;score=0;fails=[];show();
+}
+
+function show(){
+  const q=Q[i];phase="ask";
+  app.innerHTML=`<div class="top"><span>${({random:"Random",lista:"Lista",elegidos:"Mis verbos"})[mode]}</span><span>${i+1} de ${Q.length}</span></div>
+  <div class="bar"><i style="width:${i/Q.length*100}%"></i></div>
+  <div class="frame"><img src="imagenes/${q.v.img}.png" alt="" onerror="this.outerHTML='<div class=noimg>${q.v.es}</div>'"></div>
+  <div class="ask">Escribe la forma<b>${q.form==="base"?"base":"pasado"}</b></div>
+  <input id="in" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Respuesta">
+  <div class="fb" id="fb"></div>
+  <button id="go">Comprobar</button>`;
+  $("#go").onclick=act;$("#in").focus();
+}
+
+function act(){
+  const q=Q[i];
+  if(phase==="ask"){
+    const a=$("#in").value.trim().toLowerCase();
+    if(!a) return;
+    const ok=answers(q).includes(a);
+    if(ok) score++; else fails.push({q,a});
+    $("#in").disabled=true;
+    $("#fb").innerHTML=ok?`<span class="ok">¡Correcto! (${q.v.es})</span>`
+      :`<span class="bad">Incorrecto. Era: ${answers(q).join(" / ")}</span><br>(${q.v.es})`;
+    $("#go").textContent=i+1<Q.length?"Siguiente":"Ver resultado";
+    phase="next";
+  }else{
+    i++; i<Q.length?show():finish();
+  }
+}
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.tagName!=="BUTTON"&&$("#go"))act()});
+
+function finish(){
+  const pct=Math.round(score/Q.length*100);
+  const rows=fails.map(f=>`<tr><td>${f.q.v.es}</td><td>${f.q.form==="base"?"base":"pasado"}</td><td>${f.a}</td><td>${answers(f.q).join(" / ")}</td></tr>`).join("");
+  app.innerHTML=`<h1>Resultado</h1>
+  <div class="big">${score} / ${Q.length}</div><p class="sub" style="margin-top:6px">${pct}% correcto</p>
+  ${fails.length?`<p>Te equivocaste en:</p><table><tr><th>Verbo</th><th>Forma</th><th>Tu respuesta</th><th>Correcta</th></tr>${rows}</table>
+  <button id="rep">Repetir los que fallé</button>`:`<p>¡Perfecto, sin errores!</p>`}
+  <button class="alt" id="hm">Inicio</button>`;
+  if(fails.length) $("#rep").onclick=()=>start(mode,fails.map(f=>f.q));
+  $("#hm").onclick=()=>{Q=[];home()};
+}
+const sel=new Set();
+function pick(){
+  app.innerHTML=`<h1>Elige tus verbos</h1>
+  <p class="sub">Toca los que quieras practicar. Se preguntan en orden: base y luego pasado.</p>
+  <div class="grid">${VERBS.map((v,k)=>`<button type="button" class="pick${sel.has(k)?" on":""}" data-k="${k}"><img src="imagenes/${v.img}.png" alt="" onerror="this.style.visibility='hidden'"><span>${v.es}</span></button>`).join("")}</div>
+  <button class="alt" id="all">Todos</button><button class="alt" id="none">Ninguno</button><br>
+  <button id="go2"></button><button class="alt" id="back">Volver</button>`;
+  const upd=()=>{const b=$("#go2");b.textContent=sel.size?`Empezar (${sel.size} ${sel.size===1?"verbo":"verbos"})`:"Elige al menos uno";b.disabled=!sel.size;b.style.opacity=sel.size?1:.5};
+  document.querySelectorAll(".pick").forEach(b=>b.onclick=()=>{const k=+b.dataset.k;sel.has(k)?sel.delete(k):sel.add(k);b.classList.toggle("on");upd()});
+  $("#all").onclick=()=>{VERBS.forEach((_,k)=>sel.add(k));pick()};
+  $("#none").onclick=()=>{sel.clear();pick()};
+  $("#back").onclick=home;
+  $("#go2").onclick=()=>start("elegidos",ALL.filter(q=>sel.has(VERBS.indexOf(q.v))));
+  upd();
+}
+home();
+</script>
+</body>
+</html>
